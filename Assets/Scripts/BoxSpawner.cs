@@ -5,6 +5,7 @@ public class BoxSpawner : MonoBehaviour {
 	public float repeatTime;
 	public Transform[] boxPrefabs;
 	public Vector3 spawnSize;
+	public Vector3 globalVelocity;
 
 	void Start () {
 		InvokeRepeating("SpawnBox", 1.0f, repeatTime);
@@ -16,8 +17,8 @@ public class BoxSpawner : MonoBehaviour {
 			Vector3 boxSize = prefabBox.GetComponent<MeshFilter>().sharedMesh.bounds.size;
 			Vector3 adjustedSize = Vector3.Max(spawnSize - boxSize, new Vector3());
 			Vector3 position = new Vector3(Random.value*adjustedSize.x, Random.value*adjustedSize.y, Random.value*adjustedSize.z) - (adjustedSize*0.5f);
-			position += transform.position;
-			Instantiate(prefabBox, position, Quaternion.identity);
+			Transform newBox = (Transform)Instantiate(prefabBox, position, Quaternion.identity);
+			newBox.SetParent(transform, false);
 		}
 	}
 

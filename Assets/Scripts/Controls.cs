@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class Controls : MonoBehaviour {
-	public float sensitivity;
+	public Vector2 sensitivity;
 	public Transform[] walls;
-	public Vector3 initialVelocity;
+	public Vector3 bounceVelocity;
+	public Vector3 movementVelocity;
 
 	// ball size included
 	public Vector3 arenaMin;
@@ -12,11 +13,15 @@ public class Controls : MonoBehaviour {
 
 	float lastBounce;
 	Vector3 initialPosition;
+	BoxSpawner boxSpawner;
+	new AudioSource audio;
 
 	void Start() {
 		SetupWallCollisions();
 		lastBounce = Time.time;
 		initialPosition = transform.position;
+		boxSpawner = GameObject.FindWithTag("GameController").GetComponentInChildren<BoxSpawner>();
+		audio = GetComponent<AudioSource>();
 	}
 
 	void SetupWallCollisions() {
@@ -41,9 +46,17 @@ public class Controls : MonoBehaviour {
 	}
 	
 	void Update() {
-		transform.position += new Vector3(Input.GetAxis("Horizontal")*sensitivity, 0, 0);
+		transform.position += new Vector3(Input.GetAxis("Horizontal")*sensitivity.x, 0, 0);
 		CheckWallCollisions();
 		Bounce();
+
+		// check for speedup
+		boxSpawner.globalVelocity = movementVelocity;
+		boxSpawner.globalVelocity += new Vector3(0, 0, Input.GetAxis("Vertical")*sensitivity.y);
+		if (Input.GetAxis ("Left") > 0.0f && Input.GetAxis("Right") > 0.0f) {
+			boxSpawner.globalVelocity += new Vector3(0, 0, (Input.GetAxis ("Left")+Input.GetAxis("Right"))*sensitivity.y*0.5f);
+		}
+		boxSpawner.globalVelocity *= -1.0f;
 	}
 
 	void CheckWallCollisions() {
@@ -59,6 +72,7 @@ public class Controls : MonoBehaviour {
 		if (transform.position.y < arenaMin.y) {
 			transform.position = new Vector3(transform.position.x, arenaMin.y, transform.position.z);
 			lastBounce = Time.time;
+			audio.Play();
 		}
 		if (transform.position.z > arenaMax.z) {
 			transform.position = new Vector3(transform.position.x, transform.position.y, arenaMax.z);
@@ -70,6 +84,6 @@ public class Controls : MonoBehaviour {
 
 	void Bounce() {
 		float dt = Time.time - lastBounce;
-		transform.position = initialVelocity*dt + 0.5f*Physics.gravity*dt*dt + new Vector3(transform.position.x, initialPosition.y, transform.position.z);
+		transform.position = bounceVelocity*dt + 0.5f*Physics.gravity*dt*dt + new Vector3(transform.position.x, initialPosition.y, transform.position.z);
 	}
 }

@@ -2,22 +2,20 @@
 using System.Collections;
 
 public class BoxController : MonoBehaviour {
-	public Vector3 velocity;
 	public float dieDuration;
 
-	Vector3 initialPosition;
-	float spawnTime;
+	Vector3 velocity;
 	new AudioSource audio;
 	float dieStartTime = -1.0f;
+	BoxSpawner parentSpawner;
 
 	void Start() {
-		spawnTime = Time.time;
-		initialPosition = transform.position;
 		audio = GetComponent<AudioSource>();
+		parentSpawner = GetComponentInParent<BoxSpawner>();
 	}
 
 	void Update () {
-		transform.position = initialPosition + velocity * (Time.time - spawnTime);
+		transform.position += (velocity + parentSpawner.globalVelocity) * Time.deltaTime;
 		if (dieStartTime >= 0.0f) {
 			// in progress of death
 			float deathDelta = Time.time - dieStartTime; // band name idea
@@ -40,5 +38,9 @@ public class BoxController : MonoBehaviour {
 			dieStartTime = Time.time;
 			audio.Play();
 		}
+	}
+
+	public void SetVelocity(Vector3 v) {
+		velocity = v;
 	}
 }
