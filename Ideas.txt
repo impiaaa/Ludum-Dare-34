@@ -14,3 +14,4 @@ Breakout
 
 2-button fighting game
 
+One button to advance story, one to pause time
