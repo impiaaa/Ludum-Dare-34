@@ -1,0 +1,16 @@
+GROW (clone)
+	click on things that affect the world (plant?), order changes endings
+
+Bouncing ball infinite runner
+	powerups/powerdowns?
+
+Bouncing ball platform (clone)
+
+Hexagon (clone)
+
+Snake
+Pong
+Breakout
+
+2-button fighting game
+
