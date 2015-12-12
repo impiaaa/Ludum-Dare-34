@@ -36,6 +36,7 @@ public class BoxController : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		if (dieStartTime < 0.0f && other.tag == "Player") {
 			dieStartTime = Time.time;
+			audio.pitch = Random.Range(0.9f, 1.1f);
 			audio.Play();
 		}
 	}
