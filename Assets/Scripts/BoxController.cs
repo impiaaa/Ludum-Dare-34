@@ -20,8 +20,9 @@ public class BoxController : MonoBehaviour {
 			// in progress of death
 			float deathDelta = Time.time - dieStartTime; // band name idea
 			if (deathDelta > dieDuration) {
-				if (!audio.isPlaying)
+				if (!audio.isPlaying) {
 					Destroy(gameObject);
+				}
 			}
 			else {
 				Material m = GetComponent<Renderer>().material;
@@ -35,9 +36,11 @@ public class BoxController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (dieStartTime < 0.0f && other.tag == "Player") {
-			dieStartTime = Time.time;
-			audio.pitch = Random.Range(0.9f, 1.1f);
-			audio.Play();
+			if (other.GetComponentInChildren<Controls>().Hit()) {
+				dieStartTime = Time.time;
+				audio.pitch = Random.Range(0.9f, 1.1f);
+				audio.Play();
+			}
 		}
 	}
 

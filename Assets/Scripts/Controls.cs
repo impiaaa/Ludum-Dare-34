@@ -6,6 +6,7 @@ public class Controls : MonoBehaviour {
 	public Transform[] walls;
 	public Vector3 bounceVelocity;
 	public Vector3 movementVelocity;
+	public float damageCooldownDuration;
 
 	// ball size included
 	public Vector3 arenaMin;
@@ -15,6 +16,8 @@ public class Controls : MonoBehaviour {
 	Vector3 initialPosition;
 	BoxSpawner boxSpawner;
 	new AudioSource audio;
+	Scoring scoreManager;
+	float damageCooldownStart;
 
 	void Start() {
 		SetupWallCollisions();
@@ -22,6 +25,8 @@ public class Controls : MonoBehaviour {
 		initialPosition = transform.position;
 		boxSpawner = GameObject.FindWithTag("GameController").GetComponentInChildren<BoxSpawner>();
 		audio = GetComponent<AudioSource>();
+		scoreManager = GameObject.FindWithTag("GameController").GetComponentInChildren<Scoring>();
+		damageCooldownStart = -damageCooldownDuration;
 	}
 
 	void SetupWallCollisions() {
@@ -57,6 +62,14 @@ public class Controls : MonoBehaviour {
 			boxSpawner.globalVelocity += new Vector3(0, 0, (Input.GetAxis ("Left")+Input.GetAxis("Right"))*sensitivity.y*0.5f);
 		}
 		boxSpawner.globalVelocity *= -1.0f;
+
+		if (Time.time < damageCooldownStart + damageCooldownDuration) {
+			// damage cooldown
+			GetComponent<Renderer>().enabled = !GetComponent<Renderer>().enabled;
+		}
+		else {
+			GetComponent<Renderer>().enabled = true;
+		}
 	}
 
 	void CheckWallCollisions() {
@@ -85,5 +98,19 @@ public class Controls : MonoBehaviour {
 	void Bounce() {
 		float dt = Time.time - lastBounce;
 		transform.position = bounceVelocity*dt + 0.5f*Physics.gravity*dt*dt + new Vector3(transform.position.x, initialPosition.y, transform.position.z);
+	}
+
+	public bool Hit() {
+		if (Time.time >= damageCooldownStart + damageCooldownDuration) {
+			scoreManager.lives--;
+			damageCooldownStart = Time.time;
+			if (scoreManager.lives < 0) {
+				Destroy(gameObject);
+			}
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
