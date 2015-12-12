@@ -72,5 +72,4 @@ public class Controls : MonoBehaviour {
 		float dt = Time.time - lastBounce;
 		transform.position = initialVelocity*dt + 0.5f*Physics.gravity*dt*dt + new Vector3(transform.position.x, initialPosition.y, transform.position.z);
 	}
-
 }
