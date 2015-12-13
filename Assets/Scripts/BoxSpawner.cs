@@ -52,16 +52,14 @@ public class BoxSpawner : MonoBehaviour {
 	char[,] GetNextWave() {
 		char[,] wave = new char[5,10];
 		if (level == null) {
-			Debug.Log ("Generating procedural wave");
 			// gradually increase speed & repeat time
 			GameObject.FindWithTag("Player").GetComponent<Controls>().movementVelocity += new Vector3(0, 0, 1.0f);
-			repeatTime *= 0.95f;
-			Debug.LogFormat("Repeat time is now {0}", repeatTime);
+			repeatTime *= 0.94f;
 			// no level was loaded, so InvokeRepeating was never called
 			// repeatedly call invoke so that the repeat time updates
 			Invoke("SpawnWave", repeatTime);
 
-			int maxCubes = 4;
+			int maxCubes = 6;
 			for (int i = 0; i < wave.GetLength(0); i++) {
 				for (int j = 0; j < wave.GetLength (1); j++) {
 					wave[i,j] = ' ';
@@ -112,6 +110,8 @@ public class BoxSpawner : MonoBehaviour {
 		char[,] wave = GetNextWave();
 		if (wave == null) {
 			levelNumber++;
+			// bonus life
+			GetComponentInParent<Scoring>().lives++;
 			LoadLevel ();
 			return;
 		}

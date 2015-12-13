@@ -18,6 +18,7 @@ public class Controls : MonoBehaviour {
 	new AudioSource audio;
 	Scoring scoreManager;
 	float damageCooldownStart;
+	ScrollingUVs scroller;
 
 	void Start() {
 		SetupWallCollisions();
@@ -27,6 +28,7 @@ public class Controls : MonoBehaviour {
 		audio = GetComponent<AudioSource>();
 		scoreManager = GameObject.FindWithTag("GameController").GetComponentInChildren<Scoring>();
 		damageCooldownStart = -damageCooldownDuration;
+		scroller = FindObjectOfType<ScrollingUVs>();
 	}
 
 	void SetupWallCollisions() {
@@ -62,6 +64,7 @@ public class Controls : MonoBehaviour {
 			boxSpawner.globalVelocity += new Vector3(0, 0, (Input.GetAxis ("Left")+Input.GetAxis("Right"))*sensitivity.y*0.5f);
 		}
 		boxSpawner.globalVelocity *= -1.0f;
+		scroller.uvAnimationRate = new Vector2(0, boxSpawner.globalVelocity.z/80.0f);
 
 		if (Time.time < damageCooldownStart + damageCooldownDuration) {
 			// damage cooldown
@@ -106,6 +109,7 @@ public class Controls : MonoBehaviour {
 			damageCooldownStart = Time.time;
 			if (scoreManager.lives < 0) {
 				boxSpawner.globalVelocity = new Vector3();
+				scroller.uvAnimationRate = new Vector2();
 				boxSpawner.StopSpawning();
 				Destroy(gameObject);
 			}
