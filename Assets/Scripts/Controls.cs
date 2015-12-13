@@ -105,6 +105,8 @@ public class Controls : MonoBehaviour {
 			scoreManager.lives--;
 			damageCooldownStart = Time.time;
 			if (scoreManager.lives < 0) {
+				boxSpawner.globalVelocity = new Vector3();
+				boxSpawner.StopSpawning();
 				Destroy(gameObject);
 			}
 			return true;

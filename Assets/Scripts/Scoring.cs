@@ -3,7 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Scoring : MonoBehaviour {
-	public Text scoreLabel, livesLabel;
+	public Text scoreLabel, livesLabel, levelLabel;
+	public GameObject gameOverLabel;
+	public float levelFadeoutDuration;
+	public int levelNumber;
 
 	public int lives {
 		get { return _lives; }
@@ -12,23 +15,37 @@ public class Scoring : MonoBehaviour {
 			if (value >= 0) {
 				livesLabel.text = string.Format(livesFormat, value);
 			}
+			else {
+				GameOver ();
+			}
 		}
 	}
 
 	int _lives;
-	string scoreFormat, livesFormat;
+	string scoreFormat, livesFormat, levelFormat;
 
-	// Use this for initialization
 	void Start () {
 		scoreFormat = scoreLabel.text;
 		livesFormat = livesLabel.text;
+		levelFormat = levelLabel.text;
 		lives = 3;
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		if (lives >= 0) {
 			scoreLabel.text = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.time));
 		}
+	}
+
+	void GameOver() {
+		PlayerPrefs.SetFloat("HighScore", Time.time);
+		scoreLabel.text = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.time));
+		gameOverLabel.SetActive(true);
+	}
+
+	public void LevelSplash() {
+		levelLabel.text = string.Format(levelFormat, levelNumber);
+		levelLabel.canvasRenderer.SetAlpha( 1.0f );
+		levelLabel.CrossFadeAlpha(0.0f, levelFadeoutDuration, false);
 	}
 }
