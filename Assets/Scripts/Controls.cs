@@ -64,7 +64,7 @@ public class Controls : MonoBehaviour {
 			boxSpawner.globalVelocity += new Vector3(0, 0, (Input.GetAxis ("Left")+Input.GetAxis("Right"))*sensitivity.y*0.5f);
 		}
 		boxSpawner.globalVelocity *= -1.0f;
-		scroller.uvAnimationRate = new Vector2(0, boxSpawner.globalVelocity.z/80.0f);
+		scroller.uvAnimationRate = new Vector2(0, boxSpawner.globalVelocity.z/50.0f);
 
 		if (Time.time < damageCooldownStart + damageCooldownDuration) {
 			// damage cooldown

@@ -4,12 +4,12 @@ using System.Collections;
 public class BoxController : MonoBehaviour {
 	public float dieDuration;
 
-	Vector3 velocity;
-	new AudioSource audio;
-	float dieStartTime = -1.0f;
-	BoxSpawner parentSpawner;
+	protected Vector3 velocity;
+	protected new AudioSource audio;
+	protected float dieStartTime = -1.0f;
+	protected BoxSpawner parentSpawner;
 
-	void Start() {
+	public virtual void Start() {
 		audio = GetComponent<AudioSource>();
 		parentSpawner = GetComponentInParent<BoxSpawner>();
 	}
@@ -34,7 +34,7 @@ public class BoxController : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter(Collider other) {
+	public virtual void OnTriggerEnter(Collider other) {
 		if (dieStartTime < 0.0f && other.tag == "Player") {
 			if (other.GetComponentInChildren<Controls>().Hit()) {
 				dieStartTime = Time.time;

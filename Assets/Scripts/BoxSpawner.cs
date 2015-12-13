@@ -110,8 +110,6 @@ public class BoxSpawner : MonoBehaviour {
 		char[,] wave = GetNextWave();
 		if (wave == null) {
 			levelNumber++;
-			// bonus life
-			GetComponentInParent<Scoring>().lives++;
 			LoadLevel ();
 			return;
 		}
