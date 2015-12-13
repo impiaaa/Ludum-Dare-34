@@ -14,7 +14,10 @@ public class ScrollingUVs : MonoBehaviour
 		uvOffset += ( uvAnimationRate * Time.deltaTime );
 		if( GetComponent<Renderer>().enabled )
 		{
-			GetComponent<Renderer>().sharedMaterials[ materialIndex ].SetTextureOffset( textureName, uvOffset );
+			Material m = GetComponent<Renderer>().sharedMaterials[ materialIndex ];
+			Vector2 adjOffset = m.GetTextureScale(textureName);
+			adjOffset.Scale (uvOffset);
+			m.SetTextureOffset( textureName, adjOffset );
 		}
 	}
 }

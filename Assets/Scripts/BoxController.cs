@@ -25,8 +25,9 @@ public class BoxController : MonoBehaviour {
 				}
 			}
 			else {
-				Material m = GetComponent<Renderer>().material;
-				m.color = new Color(m.color.r, m.color.g, m.color.b, 1.0f - deathDelta / dieDuration);
+				foreach (Material m in GetComponent<Renderer>().materials) {
+					m.color = new Color(m.color.r, m.color.g, m.color.b, 1.0f - deathDelta / dieDuration);
+				}
 			}
 		}
 		else if (transform.position.z < 0.0f) {
