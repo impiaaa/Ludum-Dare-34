@@ -1,0 +1,42 @@
+4.7 2.5
+WW      WW
+W        W
+    WW    
+W        W
+WW      WW
+
+W  WWWW  W
+  WWWWWW  
+  WWWWWW  
+  WWWWWW  
+   WWWW   
+
+    W    W
+ W    W   
+   W    W 
+W    W    
+  W     W 
+
+WWWWWWWWWW
+WWWW  WWWW
+WWW    WWW
+WWWW  WWWW
+WWWWWWWWWW
+
+WW      WW
+  WW  WW  
+    WW    
+  WW  WW  
+WW      WW
+
+WW  WW  WW
+WW  WW  WW
+  WW  WW  
+  WW  WW  
+WW  WW  WW
+
+   WWWWW  
+   W   W  
+   W + W  
+   W   W  
+   WWWWW  

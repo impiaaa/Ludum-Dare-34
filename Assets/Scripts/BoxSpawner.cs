@@ -24,7 +24,7 @@ public class BoxSpawner : MonoBehaviour {
 		}
 		boxList = null;
 
-		levelNumber = 1;
+		levelNumber = 3;
 		LoadLevel();
 	}
 

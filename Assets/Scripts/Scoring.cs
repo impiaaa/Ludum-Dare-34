@@ -38,7 +38,9 @@ public class Scoring : MonoBehaviour {
 	}
 
 	void GameOver() {
-		PlayerPrefs.SetFloat("HighScore", Time.time);
+		if (Time.time > PlayerPrefs.GetFloat("HighScore")) {
+			PlayerPrefs.SetFloat("HighScore", Time.time);
+		}
 		scoreLabel.text = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.time));
 		gameOverLabel.SetActive(true);
 	}
