@@ -33,15 +33,15 @@ public class Scoring : MonoBehaviour {
 	
 	void Update () {
 		if (lives >= 0) {
-			scoreLabel.text = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.time));
+			scoreLabel.text = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.timeSinceLevelLoad));
 		}
 	}
 
 	void GameOver() {
-		if (Time.time > PlayerPrefs.GetFloat("HighScore")) {
-			PlayerPrefs.SetFloat("HighScore", Time.time);
+		if (Time.timeSinceLevelLoad > PlayerPrefs.GetFloat("HighScore")) {
+			PlayerPrefs.SetFloat("HighScore", Time.timeSinceLevelLoad);
 		}
-		scoreLabel.text = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.time));
+		scoreLabel.text = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.timeSinceLevelLoad));
 		gameOverLabel.SetActive(true);
 	}
 

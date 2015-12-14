@@ -13,7 +13,7 @@ public class PowerupExtraLife : BoxController
 	public override void OnTriggerEnter(Collider other) {
 		if (dieStartTime < 0.0f && other.tag == "Player") {
 			scoreboard.lives++;
-			dieStartTime = Time.time;
+			dieStartTime = Time.timeSinceLevelLoad;
 			audio.Play();
 		}
 	}

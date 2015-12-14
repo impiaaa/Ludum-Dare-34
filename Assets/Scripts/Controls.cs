@@ -22,7 +22,7 @@ public class Controls : MonoBehaviour {
 
 	void Start() {
 		SetupWallCollisions();
-		lastBounce = Time.time;
+		lastBounce = Time.timeSinceLevelLoad;
 		initialPosition = transform.position;
 		boxSpawner = GameObject.FindWithTag("GameController").GetComponentInChildren<BoxSpawner>();
 		audio = GetComponent<AudioSource>();
@@ -66,7 +66,7 @@ public class Controls : MonoBehaviour {
 		boxSpawner.globalVelocity *= -1.0f;
 		scroller.uvAnimationRate = new Vector2(0, boxSpawner.globalVelocity.z/50.0f);
 
-		if (Time.time < damageCooldownStart + damageCooldownDuration) {
+		if (Time.timeSinceLevelLoad < damageCooldownStart + damageCooldownDuration) {
 			// damage cooldown
 			GetComponent<Renderer>().enabled = !GetComponent<Renderer>().enabled;
 		}
@@ -87,7 +87,7 @@ public class Controls : MonoBehaviour {
 		}
 		if (transform.position.y < arenaMin.y) {
 			transform.position = new Vector3(transform.position.x, arenaMin.y, transform.position.z);
-			lastBounce = Time.time;
+			lastBounce = Time.timeSinceLevelLoad;
 			audio.Play();
 		}
 		if (transform.position.z > arenaMax.z) {
@@ -99,14 +99,14 @@ public class Controls : MonoBehaviour {
 	}
 
 	void Bounce() {
-		float dt = Time.time - lastBounce;
+		float dt = Time.timeSinceLevelLoad - lastBounce;
 		transform.position = bounceVelocity*dt + 0.5f*Physics.gravity*dt*dt + new Vector3(transform.position.x, initialPosition.y, transform.position.z);
 	}
 
 	public bool Hit() {
-		if (Time.time >= damageCooldownStart + damageCooldownDuration) {
+		if (Time.timeSinceLevelLoad >= damageCooldownStart + damageCooldownDuration) {
 			scoreManager.lives--;
-			damageCooldownStart = Time.time;
+			damageCooldownStart = Time.timeSinceLevelLoad;
 			if (scoreManager.lives < 0) {
 				boxSpawner.globalVelocity = new Vector3();
 				scroller.uvAnimationRate = new Vector2();

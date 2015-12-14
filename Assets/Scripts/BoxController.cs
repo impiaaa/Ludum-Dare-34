@@ -18,7 +18,7 @@ public class BoxController : MonoBehaviour {
 		transform.position += (velocity + parentSpawner.globalVelocity) * Time.deltaTime;
 		if (dieStartTime >= 0.0f) {
 			// in progress of death
-			float deathDelta = Time.time - dieStartTime; // band name idea
+			float deathDelta = Time.timeSinceLevelLoad - dieStartTime; // band name idea
 			if (deathDelta > dieDuration) {
 				if (!audio.isPlaying) {
 					Destroy(gameObject);
@@ -31,14 +31,14 @@ public class BoxController : MonoBehaviour {
 			}
 		}
 		else if (transform.position.z < 0.0f) {
-			dieStartTime = Time.time;
+			dieStartTime = Time.timeSinceLevelLoad;
 		}
 	}
 
 	public virtual void OnTriggerEnter(Collider other) {
 		if (dieStartTime < 0.0f && other.tag == "Player") {
 			if (other.GetComponentInChildren<Controls>().Hit()) {
-				dieStartTime = Time.time;
+				dieStartTime = Time.timeSinceLevelLoad;
 				audio.pitch = Random.Range(0.9f, 1.1f);
 				audio.Play();
 			}
