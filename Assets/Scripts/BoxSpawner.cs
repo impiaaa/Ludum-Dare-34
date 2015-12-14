@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -24,7 +24,7 @@ public class BoxSpawner : MonoBehaviour {
 		}
 		boxList = null;
 
-		levelNumber = 3;
+		levelNumber = 1;
 		LoadLevel();
 	}
 
