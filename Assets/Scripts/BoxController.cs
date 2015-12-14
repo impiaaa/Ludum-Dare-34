@@ -41,6 +41,7 @@ public class BoxController : MonoBehaviour {
 				dieStartTime = Time.timeSinceLevelLoad;
 				audio.pitch = Random.Range(0.9f, 1.1f);
 				audio.Play();
+				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShake>().ScreenShake();
 			}
 		}
 	}
