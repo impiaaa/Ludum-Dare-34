@@ -33,7 +33,10 @@ public class Scoring : MonoBehaviour {
 	
 	void Update () {
 		if (lives >= 0) {
-			scoreLabel.text = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.timeSinceLevelLoad));
+			string s = string.Format (scoreFormat, System.TimeSpan.FromSeconds(Time.timeSinceLevelLoad));
+			if (s.Length > 17)
+				s = s.Substring(0, 17);
+			scoreLabel.text = s;
 		}
 	}
 
